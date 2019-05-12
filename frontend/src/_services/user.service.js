@@ -9,6 +9,7 @@ import axios from 'axios'
 // axios.defaults.headers.common['Authorization'] =token;
 
 export const userService = {
+    RegisterUser,
     User,
     login,
     logout,
@@ -19,6 +20,17 @@ export const userService = {
     UpdateUser,
     getUserImage,
 };
+
+function RegisterUser(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(user)
+    };
+
+    return fetch(config.apiUrl + '/api/auth/register', requestOptions)
+        .then(handleResponse, handleError)
+}
 
 function UpdateUser(user) {
     const requestOptions = {

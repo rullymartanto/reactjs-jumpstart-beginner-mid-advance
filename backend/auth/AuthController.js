@@ -49,7 +49,7 @@ router.post('/register', function (req, res) {
 
   User.create({
     id: uuidv4(), //NewGuid(),
-    name: req.body.name,
+    username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
   }).then(user => {
@@ -70,7 +70,7 @@ router.post('/register', function (req, res) {
 router.get('/me', VerifyToken, function (req, res, next) {
     User.findOne({
       where: {id: req.userId},
-      attributes: ['name', 'email']
+      attributes: ['username', 'email']
     }).then(user => {
     res.json({
       user: user,

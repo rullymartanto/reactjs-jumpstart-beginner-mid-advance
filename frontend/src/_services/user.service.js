@@ -13,45 +13,16 @@ export const userService = {
     User,
     login,
     logout,
-    UpdatePassword,
-    UserByRole,
     UserGrid,
-    AddUser,
-    UpdateUser,
-    getUserImage,
 };
 
 function RegisterUser(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: authHeader(),
-        body: JSON.stringify(user)
-    };
-
-    return fetch(config.apiUrl + '/api/auth/register', requestOptions)
-        .then(handleResponse, handleError)
-}
-
-function UpdateUser(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: authHeader(),
-        body: JSON.stringify(user)
-    };
-
-    return fetch(config.apiUrl + '/api/User/Update', requestOptions)
-        .then(handleResponse, handleError)
-}
-
-function AddUser(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: authHeader(),
-        body: JSON.stringify(user)
-    };
-
-    return fetch(config.apiUrl + '/api/User/Register/', requestOptions)
-        .then(handleResponse, handleError)
+    return axios({
+        method:'POST',
+        // headers: authHeader(),
+        data: user,
+        url:config.apiUrl + '/api/auth/register',
+      }).then(handleResponse, handleError)
 }
 
 function login(email, password) {
@@ -80,17 +51,6 @@ function logout() {
     localStorage.removeItem('token');
 }
 
-function UpdatePassword(data) {
-    const requestOptions = {
-        method: 'POST',
-        headers: authHeader(),
-        body: JSON.stringify(data)
-    };
-
-    return fetch(config.apiUrl + '/api/User/UpdatePassword/', requestOptions)
-        .then(handleResponse, handleError)
-}
-
 function User(id) {
     return axios({
         method:'get',
@@ -108,37 +68,5 @@ function UserGrid(data) {
 }
 
 
-function UserByRole(data) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(config.apiUrl + '/api/User/' + data, requestOptions)
-        .then(handleResponse, handleError)
-}
-
-function getUserImage(id, type) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(config.apiUrl + '/api/UserImage/' + id + '/' + type, requestOptions)
-        .then(handleResponse, handleError)
-        .then(function (response) {
-            return response;
-        });
-}
-
-// function DeleteUser(username) {
-//     const requestOptions = {
-//         method: 'DELETE',
-//         headers: authHeaderContent()
-//     };
-
-//     return fetch(config.apiUrl + '/api/User/Remove/', requestOptions)
-//         .then(handleResponse, handleError)
-// }
 
 

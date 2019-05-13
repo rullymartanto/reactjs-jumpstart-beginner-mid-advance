@@ -7,13 +7,14 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      username: '',
       email: '',
       password: '',
       Repassword: '',
       loading: false,
       error: false,
-      errorText:'',
+      errorText: '',
+      success: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -33,14 +34,14 @@ class Register extends Component {
     e.preventDefault();
     this.setState({ loading: true })
     if (this.state.password !== this.state.Repassword) {
-      this.setState({ loading: false, error: true,errorText:'Password Not Match!' })
+      this.setState({ loading: false, error: true, errorText: 'Password Not Match!' })
       return;
     }
     userService.RegisterUser(this.state)
       .then(res => {
-        this.setState({ loading: false }, () => this.props.history.push('/login'))
+        this.setState({ success: true, loading: false, password: '', Repassword: '', email: '', username: '' })
       }, error => {
-        this.setState({ loading: false, error: true,errorText:'Register Error!' })
+        this.setState({ loading: false, error: true, errorText: 'Register Error!' })
       })
 
   }
@@ -62,7 +63,7 @@ class Register extends Component {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="name" autoComplete="name" id="name" value={this.state.name} onChange={this.handleChange} />
+                      <Input type="text" placeholder="username" autoComplete="username" id="username" value={this.state.username} onChange={this.handleChange} />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -87,11 +88,15 @@ class Register extends Component {
                       <Input type="password" placeholder="Repeat password" autoComplete="new-password" id='Repassword' value={this.state.Repassword} onChange={this.handleChange} />
                     </InputGroup>
                     <InputGroup>
-                        <Alert color="danger" isOpen={this.state.error} toggle={this.onDismiss}>
-                          {this.state.errorText}
-                          </Alert>
-                      </InputGroup>
+                      <Alert color="danger" isOpen={this.state.error} toggle={this.onDismiss}>
+                        {this.state.errorText}
+                      </Alert>
+                      <Alert color="success" isOpen={this.state.success} toggle={this.onSuccess}>
+                        Register Success !
+                      </Alert>
+                    </InputGroup>
                     <Button type="submit" color="success" block>Create Account</Button>
+                   { this.state.success ? <Button color="primary" onClick={() => this.props.history.push('/login')} block>Back To Login Page</Button> : ''}
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">

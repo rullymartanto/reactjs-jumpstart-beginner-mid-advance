@@ -26,8 +26,25 @@ class Register extends Component {
   }
 
   handleChange(e) {
+
     const { id, value } = e.target
-    this.setState({ [id]: value })
+
+    var reg = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$/;
+    var test = reg.test(value);
+
+
+    this.setState({ [id]: value }, () => {
+      if (id === 'password') {
+        if (test) {
+          this.setState({ error: false })
+        } else {
+          this.setState({ error: true, errorText: 'Password Weak !' })
+        }
+      }
+    })
+
+
+
   }
 
   handleSubmit(e) {
@@ -37,12 +54,14 @@ class Register extends Component {
       this.setState({ loading: false, error: true, errorText: 'Password Not Match!' })
       return;
     }
-    userService.RegisterUser(this.state)
-      .then(res => {
-        this.setState({ success: true, loading: false, password: '', Repassword: '', email: '', username: '' })
-      }, error => {
-        this.setState({ loading: false, error: true, errorText: 'Register Error!' })
-      })
+    if (this.state.error === false) {
+      userService.RegisterUser(this.state)
+        .then(res => {
+          this.setState({ success: true, loading: false, password: '', Repassword: '', email: '', username: '' })
+        }, error => {
+          this.setState({ loading: false, error: true, errorText: 'Register Error!' })
+        })
+    }
 
   }
 
@@ -96,7 +115,7 @@ class Register extends Component {
                       </Alert>
                     </InputGroup>
                     <Button type="submit" color="success" block>Create Account</Button>
-                   <Button color="primary" onClick={() => this.props.history.push('/login')} block>Back To Login Page</Button>
+                    <Button color="primary" onClick={() => this.props.history.push('/login')} block>Back To Login Page</Button>
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">

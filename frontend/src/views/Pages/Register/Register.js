@@ -96,7 +96,7 @@ class Register extends Component {
                       </Alert>
                     </InputGroup>
                     <Button type="submit" color="success" block>Create Account</Button>
-                   { this.state.success ? <Button color="primary" onClick={() => this.props.history.push('/login')} block>Back To Login Page</Button> : ''}
+                   <Button color="primary" onClick={() => this.props.history.push('/login')} block>Back To Login Page</Button>
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">

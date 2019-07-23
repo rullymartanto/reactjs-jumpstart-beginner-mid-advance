@@ -19,7 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.22",
     "mysql2": "^1.6.5",
-    "sequelize": "^5.2.12",
+    "sequelize": "^5.3.0",
     "uuid": "^3.3.2"
   }
 }
